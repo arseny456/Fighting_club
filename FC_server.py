@@ -15,7 +15,8 @@ from socket import *
 clients = {}
 def client_reg(name, ip):
     global clients
-    clients.update({ip: name})
+    # clients.update({ip: name})
+    clients[ip] = name
 
 
 # Настройка сокета
