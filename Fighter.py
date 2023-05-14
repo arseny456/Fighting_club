@@ -1,15 +1,16 @@
 import random
 import time
+from tkinter import Text, END
+# from GUI_for_player_vs_comp import text_field
 
-
-# TODO: добавить удары и блоки разных частей тела
 class Fighter:
-    def __init__(self, name, health=100):
+    def __init__(self, name: str, health=100, text_log: Text = None):
         self.name = name
         self.health = health
         self.armor = 10
         self.strange = 1
         self.block_area = "торс"
+        self.text_log = text_log
 
     def hit(self, enemy, area='торс'):
 
@@ -18,15 +19,20 @@ class Fighter:
         hit = self.strange * random.randint(1, 10)  # текущий урон
         if enemy.block_area != area:
             enemy.health -= hit
-            print(self.name, 'нанёс удар', enemy.name, 'в', area, 'с силой', hit)
+            self.text_log.config(state='normal')
+            self.text_log.insert(0.0, f"{self.name} нанёс удар {enemy.name} в {area} с силой {hit}\n\n")
+            self.text_field.config(state='disabled')
         else:
-            print(enemy.name, 'отразил удар по', area)
+            self.text_log.config(state='normal')
+            self.text_log.insert(0.0, f"{enemy.name} отразил удар по {area}\n\n")
+            self.text_log.config(state='disabled')
         # Если здоровье противника стало меньше 0, ставим в 0
         if enemy.health < 0:
             enemy.health = 0
         if enemy.health <= 0:
-            print(enemy.name, 'Побеждён')
-
+            self.text_log.config(state='normal')
+            self.text_log.insert(0.0, f"{enemy.name}, Побеждён\n\n")
+            self.text_log.config(state='disabled')
     def block(self, area):
         self.block_area = area
 
